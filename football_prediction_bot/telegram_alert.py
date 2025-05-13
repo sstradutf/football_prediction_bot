@@ -1,7 +1,17 @@
 import requests
 from .config import TELEGRAM_TOKEN, CHAT_ID
 
-def send_message(message):
-    url = f'https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage'
-    data = {'chat_id': CHAT_ID, 'text': message}
-    requests.post(url, data=data)
+# Ajoute ton propre ID ici
+AUTHORIZED_USER_ID = 6567626016
+
+def send_message(text: str, chat_id: int = AUTHORIZED_USER_ID):
+    token = TELEGRAM_TOKEN  # importé depuis config.py
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    payload = {
+        "chat_id": chat_id,
+        "text": text,
+        "parse_mode": "HTML"
+    }
+
+    response = requests.post(url, json=payload)
+    return response.json()
